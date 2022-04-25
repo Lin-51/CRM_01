@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="demo" extends="struts-default" namespace="/">
+        <interceptors>
+            <interceptor name="pri" class="com.cn.interceptor.PrivilageInterceptor"></interceptor>
+        </interceptors>
+            <global-results>
+                <result name="login">/login.jsp</result>
+            </global-results>
+        <action name="CustomerAction_*" class="com.cn.action.CustomerAction" method="{1}">
+            <result name="querySuccess">/jsp/customer/list.jsp</result>
+            <result name="findAll" type="redirectAction">CustomerAction_findAll</result>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <interceptor-ref name="pri"></interceptor-ref>
+        </action>
+        <action name="UserAction_*" class="com.cn.action.UserAction" method="{1}">
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+
+            <result name="loginSuccess">/index.htm</result>
+            <interceptor-ref name="pri">
+                <param name="excludeMethods">doLogin</param>
+            </interceptor-ref>
+        </action>
+    </package>
+
+</struts>
